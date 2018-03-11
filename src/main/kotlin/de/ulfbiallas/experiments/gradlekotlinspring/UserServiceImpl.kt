@@ -1,14 +1,23 @@
 package de.ulfbiallas.experiments.gradlekotlinspring
 
+import mu.KotlinLogging
 import org.springframework.stereotype.Component
+import java.util.*
+
+private val logger = KotlinLogging.logger {}
 
 @Component
-class UserServiceImpl: UserService {
+class UserServiceImpl(
+    val userRepository: UserRepository
+): UserService {
 
-    override fun getUsers(): List<User> = listOf(
-        User("User1", "user1@users.test"),
-        User("User2", "user2@users.test"),
-        User("User3", "user3@users.test")
-    );
+    override fun getUsers(): List<UserResponse> =
+            userRepository.findAll().map { UserEntity.toUserResponse(it) }
 
+    override fun createUser(user: UserRequest): UserResponse {
+        var userEntity: UserEntity = UserEntity(UUID.randomUUID().toString(), user.email, user.name)
+        userEntity = userRepository.save(userEntity)
+        logger.info { "Created user $userEntity" }
+        return UserEntity.toUserResponse(userEntity)
+    }
 }

@@ -1,15 +1,20 @@
 package de.ulfbiallas.experiments.gradlekotlinspring
 
-import com.fasterxml.jackson.annotation.JsonProperty
-
-data class User(
-    @field:JsonProperty("username")
+data class UserRequest(
     val name: String,
     val email: String
-);
+)
+
+data class UserResponse(
+    val id: String,
+    val name: String,
+    val email: String
+)
 
 interface UserService {
 
-    fun getUsers(): List<User>
+    fun getUsers(): List<UserResponse>
+
+    fun createUser(user: UserRequest): UserResponse
 
 }
