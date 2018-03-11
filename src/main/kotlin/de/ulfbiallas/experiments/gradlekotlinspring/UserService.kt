@@ -1,14 +1,14 @@
 package de.ulfbiallas.experiments.gradlekotlinspring
 
 data class UserRequest(
-    val name: String,
-    val email: String
+    val email: String,
+    val name: String
 )
 
 data class UserResponse(
     val id: String,
-    val name: String,
-    val email: String
+    val email: String,
+    val name: String
 )
 
 interface UserService {

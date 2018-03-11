@@ -15,7 +15,8 @@ class UserServiceImpl(
             userRepository.findAll().map { UserEntity.toUserResponse(it) }
 
     override fun createUser(user: UserRequest): UserResponse {
-        var userEntity: UserEntity = UserEntity(UUID.randomUUID().toString(), user.email, user.name)
+        val id = UUID.randomUUID().toString()
+        var userEntity: UserEntity = UserEntity(id, user.email, user.name)
         userEntity = userRepository.save(userEntity)
         logger.info { "Created user $userEntity" }
         return UserEntity.toUserResponse(userEntity)
